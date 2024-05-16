@@ -5,6 +5,8 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
+<ion-input type="email" label="Email" [(ngModel)]="email"></ion-input>
+<ion-input type="password" label="Password" [(ngModel)]="password"></ion-input>
+<ion-button (click)="login()">Login</ion-button>
 
 </ion-content>
