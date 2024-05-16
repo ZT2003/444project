@@ -7,6 +7,6 @@
 <ion-content [fullscreen]="true">
 <ion-input type="email" label="Email" [(ngModel)]="email"></ion-input>
 <ion-input type="password" label="Password" [(ngModel)]="password"></ion-input>
-<ion-button (click)="login()">Login</ion-button>
-
+<ion-button (click)="login()">Login</ion-button> <br>
+new user? <ion-button routerLink="/signup">Sign Up</ion-button>
 </ion-content>

@@ -4,6 +4,7 @@ import { Auth, getAuth, signInWithEmailAndPassword, createUserWithEmailAndPasswo
 import { Firestore } from '@angular/fire/firestore';
 import { collection, collectionData, CollectionReference, DocumentReference } from '@angular/fire/firestore';
 import { getDocs, doc, deleteDoc, updateDoc, docData, setDoc, addDoc, query } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
 import { DocumentData } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 
@@ -12,7 +13,7 @@ import { Observable } from 'rxjs';
 })
 export class FirebaseService {
 
-  constructor(public auth:Auth, public fs: Firestore) {
+  constructor(public auth:Auth, public fs: Firestore, public router: Router) {
     this.userCollection = collection(this.fs, 'Users');
     this.ideaCollection = collection(this.fs, 'Ideas');
     this.articleCollection = collection(this.fs, 'Articles');
@@ -100,10 +101,21 @@ export class FirebaseService {
     .then(() => {
       this.user = {username: un, email: em, read: [], favorite: []};
       this.addUser(this.user);
+      this.router.navigateByUrl('/login');
       alert("signup successful");
     })
     .catch(() => {
       alert("signup failled");
+    });
+  }
+  login(em, ps){
+    signInWithEmailAndPassword(this.auth, em, ps)
+    .then(() => {
+      this.router.navigateByUrl('/home');
+      alert("success login");
+    })
+    .catch(() => {
+      alert("failled login");
     });
   }
 }
@@ -131,18 +143,21 @@ export interface Article {
 
 export interface Book {
   id: string,
+  type: string,
   title: string,
   topic: string[],
   date: Date,
-  chapters: {chapter: number, summary: string, images: string[]}[],
-  comments: {comment: string, user: string}[],
-  ratings: {rating: number, user: string}[]
+  summary?: string,
+  writer: string,
+  chapters?: {chapter: number, summary: string, images: string[]}[],
+  comments?: {comment: string, user: string}[],
+  ratings?: {rating: number, user: string}[]
 }
 
 export interface User {
   id?: string,
   username: string,
   email: string,
-  read: string[],
-  favorite: string[]
+  read?: string[],
+  favorite?: string[]
 }

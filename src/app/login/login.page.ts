@@ -1,7 +1,8 @@
 //@ts-nocheck
 import { Component, OnInit } from '@angular/core';
 import { Auth, getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, sendSignInLinkToEmail } from '@angular/fire/auth';
-    
+import { FirebaseService } from '../firebase.service';
+
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,7 @@ import { Auth, getAuth, signInWithEmailAndPassword, createUserWithEmailAndPasswo
 })
 export class LoginPage implements OnInit {
 
-  constructor(public auth: Auth) { }
+  constructor(public auth: Auth, public fb: FirebaseService) { }
 
   ngOnInit() {
   }
@@ -20,7 +21,7 @@ export class LoginPage implements OnInit {
 
   const auth = getAuth();
   login(){
-    signInWithEmailAndPassword(this.auth, this.email, this.password).then((res) => {alert("success login");}).catch(() => {alert("failled login");});
+    this.fb.login(this.email, this.password);
   }
 
 }
