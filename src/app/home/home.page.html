@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-card *ngFor="let summary of fb.books$ | async">
+  <ion-card *ngFor="let summary of fb.summaries$ | async">
     <ion-card-header>
       <ion-card-title>{{summary.title}}</ion-card-title>
       <ion-card-subtitle>{{summary.type}} summary by {{summary.writer}}</ion-card-subtitle>
@@ -35,20 +35,20 @@
       </ion-header>
       <ion-content class="ion-padding">
         <ion-item>
-          <ion-radio-group [(ngModel)]="book.type" label="Type">
+          <ion-radio-group [(ngModel)]="summary.type" label="Type">
             <ion-radio value="idea">Idea</ion-radio><br />
             <ion-radio value="article">Article</ion-radio><br />
             <ion-radio value="book">Book</ion-radio>          
           </ion-radio-group>
         </ion-item>
         <ion-item>
-          <ion-input label="Title" labelPlacement="stacked" type="text" [(ngModel)]="book.title"></ion-input>
+          <ion-input label="Title" labelPlacement="stacked" type="text" [(ngModel)]="summary.title"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input label="Topics" labelPlacement="stacked" type="text" [(ngModel)]="book.topic"></ion-input>
+          <ion-input label="Topics" labelPlacement="stacked" type="text" [(ngModel)]="summary.topic"></ion-input>
         </ion-item>
         <ion-item>
-          <textarea label="Summary" labelPlacement="stacked" [(ngModel)]="book.summary"></textarea>
+          <ion-textarea label="Summary" labelPlacement="stacked" [(ngModel)]="summary.summary"></ion-textarea>
         </ion-item>
       </ion-content>
     </ng-template>

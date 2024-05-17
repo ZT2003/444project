@@ -1,6 +1,6 @@
 //@ts-nocheck
 import { Component, OnInit } from '@angular/core';
-import { FirebaseService, Book } from '../firebase.service';
+import { FirebaseService, Book, Summary } from '../firebase.service';
 import { IonModal, ModalController } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core/components';
 
@@ -16,7 +16,7 @@ export class HomePage implements OnInit {
   ngOnInit() {
   }
 
-  book: Book = {};
+  summary: Summary = {};
   cancel() {
     this.modal.dismiss(null, 'cancel');
   }

@@ -15,14 +15,10 @@ export class FirebaseService {
 
   constructor(public auth:Auth, public fs: Firestore, public router: Router) {
     this.userCollection = collection(this.fs, 'Users');
-    this.ideaCollection = collection(this.fs, 'Ideas');
-    this.articleCollection = collection(this.fs, 'Articles');
-    this.bookCollection = collection(this.fs, 'Books');
+    this.summaryCollection = collection(this.fs, 'Summaries');
 
     this.getUsers();
-    this.getIdeas();
-    this.getArticles();
-    this.getBooks();
+    this.getSummaries();
   }
 
   user: User;
@@ -30,68 +26,40 @@ export class FirebaseService {
   public users$: Observable<User[]>;
   userCollection: CollectionReference<DocumentData>;
 
-  idea: Idea;
-  public ideas: any[] = [];
-  public ideas$: Observable<Idea[]>;
-  ideaCollection: CollectionReference<DocumentData>;
-
-  article: Article;
-  public articles: any[] = [];
-  public articles$: Observable<Article[]>
-  articleCollection: CollectionReference<DocumentData>;
-
-  book: Book;
-  public books: any[] = [];
-  public books$: Observable<Book[]>;
-  bookCollection: CollectionReference<DocumentData>;
+  summary: Summary;
+  public summaries: any[] = [];
+  public summaries$: Observable<Summary[]>;
+  summaryCollection: CollectionReference<DocumentData>;
 
   async getUsers(){
     this.users$ = collectionData(query(this.userCollection), {idField: 'id'}) as Observable<User[]>;
   }
-  async getIdeas(){
-    this.ideas$ = collectionData(query(this.ideaCollection), {idField: 'id'}) as Observable<Idea[]>;
-  }
-  async getArticles(){
-    this.articles$ = collectionData(query(this.articleCollection), {idField: 'id'}) as Observable<Article[]>;
-  }
-  async getBooks(){
-    this.books$ = collectionData(query(this.bookCollection), {idField: 'id'}) as Observable<Book[]>;
+  async getSummaries(){
+    this.summaries$ = collectionData(query(this.summaryCollection), {idField: 'id'}) as Observable<Summary[]>;
   }
   addUser(u): Promise<DocumentReference>{
     return addDoc(this.userCollection, u);
   }
-  addIdea(i): Promise<DocumentReference>{
-    return addDoc(this.ideaCollection, i);
-  }
-  addArticle(a): Promise<DocumentReference>{
-    return addDoc(this.articleCollection, a);
-  }
-  addBook(b): Promise<DocumentReference>{
-    return addDoc(this.bookCollection, b);
+  addSummary(b): Promise<DocumentReference>{
+    return addDoc(this.summaryCollection, b);
   }
   editUser(u:User): Promise<DocumentReference>{
     return updateDoc(doc(this.fs, `Users/${u.id}`), {usernaem: u.username, email: u.email});
   }
-  editIdea(i:Idea): Promise<DocumentReference>{
-    return updateDoc(doc(this.fs, `Ideas/${i.id}`), {title: i.title, topic: i.topic, date: new Date(), summary: i.summary, images: i.images});
+  editSummary(s:Summary): Promise<DocumentReference>{
+    return updateDoc(doc(this.fss, `Summaries/${s.id}`), {type: s.type, title: s.title, topic: s.topic, date: new Date(), summary: s.summary, chapters: s.chapters});
   }
-  editArticle(a:Article): Promise<DocumentReference>{
-    return updateDoc(doc(this.fs, `Articles/${a.id}`), {title: a.title, topic: a.topic, date: new Date(), summary: a.summary, imgaes: a.images});
+  addComment(s:Summary): Promise<DocumentReference>{
+    return updateDoc(doc(this.fss, `Summaries/${s.id}`), {comments: s.comments});
   }
-  editBook(b:Book): Promise<DocumentReference>{
-    return updateDoc(doc(this.fss, `Books/${b.id}`), {title: b.title, topic: b.topic, date: new Date(), chapters: b.chapters});
+  addRating(s:Summary): Promise<DocumentReference>{
+    return updateDoc(doc(this.fss, `Summaries/${s.id}`), {ratings: s.ratings});
   }
   deleteUser(u:User): Promise<void>{
     return deleteDoc(doc(this.fs, 'Users', u.id));
   }
-  deleteIdea(i:Idea): Promise<void>{
-    return deleteDoc(doc(this.fs, 'Ideas', i.id));
-  }
-  deleteArticle(a:Article): Promise<void>{
-    return deleteDoc(doc(this.fs, 'Articles', a.id));
-  }
-  deleteBook(b:Book): Promise<void>{
-    return deleteDoc(doc(this.fs, 'Books', b.id));
+  deleteSummary(b:Summary): Promise<void>{
+    return deleteDoc(doc(this.fs, 'Summaries', b.id));
   }
 
   const auth = getAuth();
@@ -119,29 +87,8 @@ export class FirebaseService {
     });
   }
 }
-export interface Idea {
-  id: string,
-  title: string,
-  topic: string[],
-  date: Date,
-  summary: string,
-  images: string[],
-  comments: {comment: string, user: string}[],
-  ratings: {rating: number, user: string}[]
-}
 
-export interface Article {
-  id: string,
-  title: string,
-  topic: string[],
-  date: Date,
-  summary: string,
-  images: string[],
-  comments: {comment: string, user: string}[],
-  ratings: {rating: number, user: string}[]
-}
-
-export interface Book {
+export interface Summary {
   id: string,
   type: string,
   title: string,
