@@ -35,6 +35,13 @@
       </ion-header>
       <ion-content class="ion-padding">
         <ion-item>
+          <ion-radio-group [(ngModel)]="book.type" label="Type">
+            <ion-radio value="idea">Idea</ion-radio><br />
+            <ion-radio value="article">Article</ion-radio><br />
+            <ion-radio value="book">Book</ion-radio>          
+          </ion-radio-group>
+        </ion-item>
+        <ion-item>
           <ion-input label="Title" labelPlacement="stacked" type="text" [(ngModel)]="book.title"></ion-input>
         </ion-item>
         <ion-item>
