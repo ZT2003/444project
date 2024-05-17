@@ -35,7 +35,7 @@
       </ion-header>
       <ion-content class="ion-padding">
         <ion-item>
-          <ion-radio-group [(ngModel)]="summary.type" label="Type">
+          <ion-radio-group [(ngModel)]="summary.type" label="Type" (ionChange)="type()">
             <ion-radio value="idea">Idea</ion-radio><br />
             <ion-radio value="article">Article</ion-radio><br />
             <ion-radio value="book">Book</ion-radio>          
@@ -47,9 +47,17 @@
         <ion-item>
           <ion-input label="Topics" labelPlacement="stacked" type="text" [(ngModel)]="summary.topic"></ion-input>
         </ion-item>
-        <ion-item>
+        <ion-item *ngIf="!showBook">
           <ion-textarea label="Summary" labelPlacement="stacked" [(ngModel)]="summary.summary"></ion-textarea>
         </ion-item>
+        <div *ngIf="showBook">
+          <ion-item *ngFor="let c of summary.chapters; let i = index;">
+            <ion-input label="Chapter number" labelPlacement="stacked" [(ngModel)]="summary.chapters[i].chapter"></ion-input> 
+            <ion-textarea label="Chapter Summary" labelPlacement="stacked" [(ngModel)]="summary.chapters[i].summary"></ion-textarea>
+          </ion-item>
+          <ion-button (click)="addChapter()">Add Chapter</ion-button>
+        </div>
+
       </ion-content>
     </ng-template>
   </ion-modal>

@@ -40,8 +40,8 @@ export class FirebaseService {
   addUser(u): Promise<DocumentReference>{
     return addDoc(this.userCollection, u);
   }
-  addSummary(b): Promise<DocumentReference>{
-    return addDoc(this.summaryCollection, b);
+  addSummary(s): Promise<DocumentReference>{
+    return addDoc(this.summaryCollection, s);
   }
   editUser(u:User): Promise<DocumentReference>{
     return updateDoc(doc(this.fs, `Users/${u.id}`), {usernaem: u.username, email: u.email});
@@ -94,11 +94,11 @@ export interface Summary {
   title: string,
   topic: string[],
   date: Date,
-  summary?: string,
+  summary: string,
   writer: string,
-  chapters?: {chapter: number, summary: string, images: string[]}[],
-  comments?: {comment: string, user: string}[],
-  ratings?: {rating: number, user: string}[]
+  chapters: {chapter: number, summary: string, images: string[]}[],
+  comments: {comment: string, user: string}[],
+  ratings: {rating: number, user: string}[]
 }
 
 export interface User {
