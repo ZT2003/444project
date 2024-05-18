@@ -1,7 +1,7 @@
 //@ts-nocheck
 import { Component, OnInit } from '@angular/core';
-import { Auth, getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, sendSignInLinkToEmail } from '@angular/fire/auth';
 import { FirebaseService } from '../firebase.service';
+import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-signup',
@@ -10,20 +10,32 @@ import { FirebaseService } from '../firebase.service';
 })
 export class SignupPage implements OnInit {
 
-  constructor(public auth: Auth, public fb: FirebaseService) { }
+  signForm: FormGroup;
+
+  constructor(public fb: FirebaseService, public form: FormBuilder) { }
 
   ngOnInit() {
+    this.createForm();
   }
 
-  email: string = "";
-  password: string = "";
-  passwordConfirm: string = "";
-  username: string = "";
+  createForm(){
+    this.signForm = this.form.group({
+      username: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9._]+$'), Validators.maxLength(30)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6), Validators.pattern('^(?=.*[a-zA-Z])(?=.*[0-9])[0-9a-zA-Z_$#@%*-.]{2,}$'), Validators.maxLength(30)]],
+      passwordConfirm: ['', [Validators.required]] 
+    }, { validator: this.passwordMatchValidator });
+  }
 
-  const auth = getAuth();
-
-  signup(){
-    this.fb.signup(this.username, this.email, this.password);
+  passwordMatchValidator(formGroup: FormGroup) {
+    return formGroup.get('password').value === formGroup.get('passwordConfirm').value? null : { mismatch: true };
+  }
+  
+  signup(check){
+    if(check){
+      const { username, email, password } = this.signForm.value;
+      this.fb.signup(username, email, password);    
+    }
   }
 
 }

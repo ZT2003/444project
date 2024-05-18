@@ -90,7 +90,7 @@ export class FirebaseService {
       alert("signup successful");
     })
     .catch(() => {
-      alert("signup failled");
+      alert("signup failled, could be the email is already used");
     });
   }
   login(em, ps){
@@ -106,6 +106,7 @@ export class FirebaseService {
   signout(){
     signOut(this.auth)
     .then(() => {
+      this.router.navigateByUrl('/login');
       alert("success signout");
     })
     .catch(() => {
