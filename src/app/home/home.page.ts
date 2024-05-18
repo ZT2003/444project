@@ -16,7 +16,7 @@ export class HomePage implements OnInit {
   ngOnInit() {
   }
 
-  summary: Summary = {};
+  summary: Summary = {writer: this.fb.email};
   cancel() {
     this.modal.dismiss(null, 'cancel');
   }
@@ -29,7 +29,7 @@ export class HomePage implements OnInit {
     const ev = event as CustomEvent<OverlayEventDetail<string>>;
     if (ev.detail.role === 'confirm') {
       this.fb.addSummary(this.summary);
-      this.summary = {};
+      this.summary = {writer: this.fb.email};
     }
   }
 
@@ -37,7 +37,7 @@ export class HomePage implements OnInit {
   type(){
     if(this.summary.type == 'book'){
       this.showBook = true;
-      this.summary = {chapters: [{chapter: null, summary: ""}, ]};
+      this.summary.chapters = [{chapter: null, summary: ""}, ];
     }
     else
       this.showBook = false;

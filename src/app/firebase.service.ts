@@ -1,6 +1,6 @@
 //@ts-nocheck
 import { Injectable } from '@angular/core';
-import { Auth, getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, sendSignInLinkToEmail } from '@angular/fire/auth';
+import { Auth, getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, sendSignInLinkToEmail, onAuthStateChanged } from '@angular/fire/auth';
 import { Firestore } from '@angular/fire/firestore';
 import { collection, collectionData, CollectionReference, DocumentReference } from '@angular/fire/firestore';
 import { getDocs, doc, deleteDoc, updateDoc, docData, setDoc, addDoc, query } from '@angular/fire/firestore';
@@ -19,7 +19,24 @@ export class FirebaseService {
 
     this.getUsers();
     this.getSummaries();
+    this.user$ = new Observable(observer => {
+      onAuthStateChanged(this.auth, user => {
+        if (user) {
+          this.uid = user.uid;
+          this.email = user.email;
+          observer.next(user);
+        } else {
+          this.uid = null;
+          observer.next(null);
+        }
+      });
+    });      
   }
+
+  uid;
+  email;
+  un;
+  user$: Observable<any>;
 
   user: User;
   public users: any[] = [];
@@ -84,6 +101,15 @@ export class FirebaseService {
     })
     .catch(() => {
       alert("failled login");
+    });
+  }
+  signout(){
+    signOut(this.auth)
+    .then(() => {
+      alert("success signout");
+    })
+    .catch(() => {
+      alert("failled signout");
     });
   }
 }

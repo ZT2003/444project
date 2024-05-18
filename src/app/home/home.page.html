@@ -15,11 +15,7 @@
       {{summary.topic}}
     </ion-card-content>
   </ion-card>
-  <ion-fab slot="fixed" vertical="bottom" horizontal="center">
-    <ion-fab-button id="open-modal">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+  
   <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
     <ng-template>
       <ion-header>
@@ -62,3 +58,13 @@
     </ng-template>
   </ion-modal>
 </ion-content>
+<ion-footer [translucent]="true">
+  <ion-toolbar>
+    <ion-button id="open-modal">
+      <ion-icon name="add"></ion-icon>
+    </ion-button>
+    <ion-button routerLink="/profile">
+      <ion-icon name="person"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
