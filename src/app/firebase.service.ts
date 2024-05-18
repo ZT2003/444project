@@ -7,6 +7,7 @@ import { getDocs, doc, deleteDoc, updateDoc, docData, setDoc, addDoc, query } fr
 import { Router } from '@angular/router';
 import { DocumentData } from 'firebase/firestore';
 import { Observable } from 'rxjs';
+import { getDownloadURL } from 'firebase/storage';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,8 @@ export class FirebaseService {
           this.uid = user.uid;
           this.email = user.email;
           observer.next(user);
-        } else {
+        } 
+        else {
           this.uid = null;
           observer.next(null);
         }
@@ -34,7 +36,7 @@ export class FirebaseService {
   }
 
   uid;
-  email;
+  email = "default value";
   un;
   user$: Observable<any>;
 
@@ -113,6 +115,7 @@ export class FirebaseService {
       alert("failled signout");
     });
   }
+  
 }
 
 export interface Summary {
@@ -122,6 +125,7 @@ export interface Summary {
   topic: string[],
   date: Date,
   summary: string,
+  images: string[],
   writer: string,
   chapters: {chapter: number, summary: string, images: string[]}[],
   comments: {comment: string, user: string}[],

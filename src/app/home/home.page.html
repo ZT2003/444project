@@ -45,6 +45,7 @@
         </ion-item>
         <ion-item *ngIf="!showBook">
           <ion-textarea label="Summary" labelPlacement="stacked" [(ngModel)]="summary.summary"></ion-textarea>
+          <input type="file" multiple #upload>
         </ion-item>
         <div *ngIf="showBook">
           <ion-item *ngFor="let c of summary.chapters; let i = index;">
