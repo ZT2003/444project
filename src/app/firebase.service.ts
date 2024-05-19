@@ -20,6 +20,7 @@ export class FirebaseService {
 
     this.getUsers();
     this.getSummaries();
+    this.getSummariesCopy();
     this.user$ = new Observable(observer => {
       onAuthStateChanged(this.auth, user => {
         if (user) {
@@ -55,6 +56,12 @@ export class FirebaseService {
   }
   async getSummaries(){
     this.summaries$ = collectionData(query(this.summaryCollection), {idField: 'id'}) as Observable<Summary[]>;
+  }
+  async getSummariesCopy(){
+    const querySnapshot = await getDocs(this.summaryCollection);
+    querySnapshot.forEach((doc) => {
+      this.summaries.push(doc.data());
+    });
   }
   addUser(u): Promise<DocumentReference>{
     return addDoc(this.userCollection, u);

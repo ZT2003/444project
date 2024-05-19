@@ -1,4 +1,7 @@
+//@ts-nocheck
 import { Component, OnInit } from '@angular/core';
+import { FirebaseService, Summary } from '../firebase.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-detail',
@@ -7,9 +10,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DetailPage implements OnInit {
 
-  constructor() { }
-
+  constructor(public fb: FirebaseService, public activatedRoute: ActivatedRoute) { }
+  i: number;
   ngOnInit() {
+    this.i = Number(this.activatedRoute.snapshot.paramMap.get('index'));
   }
 
 }

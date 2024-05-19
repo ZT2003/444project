@@ -1,13 +1,17 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>detail</ion-title>
+    <ion-title>      {{fb.summaries[i].title}}    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">detail</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <ion-item>
+      {{fb.summaries[i].topic}}
+    </ion-item>
+    <ion-item>
+      {{fb.summaries[i].writer}}
+    </ion-item>
+    <ion-item>      
+      {{fb.summaries[i].summary}}
+    </ion-item>
 </ion-content>

@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-card *ngFor="let summary of fb.summaries$ | async">
+  <ion-card *ngFor="let summary of fb.summaries$ | async; let i = index;" routerLink="/detail/{{i}}">
     <ion-card-header>
       <ion-card-title>{{summary.title}}</ion-card-title>
       <ion-card-subtitle>{{summary.type}} summary by {{summary.writer}}</ion-card-subtitle>
