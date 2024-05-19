@@ -1,8 +1,7 @@
 //@ts-nocheck
 import { Component, OnInit } from '@angular/core';
-import { Auth, getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, sendSignInLinkToEmail } from '@angular/fire/auth';
 import { FirebaseService } from '../firebase.service';
-
+import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -11,17 +10,25 @@ import { FirebaseService } from '../firebase.service';
 })
 export class LoginPage implements OnInit {
 
-  constructor(public auth: Auth, public fb: FirebaseService) { }
+  constructor(public fb: FirebaseService, public form: FormBuilder) { }
 
   ngOnInit() {
+    this.createForm();
   }
 
-  email: string = "";
-  password: string = "";
+  loginForm: FormGroup;
+  createForm(){
+    this.loginForm = this.form.group({
+      email: ['', [Validators.required]],
+      password: ['', [Validators.required]]
+    });
+  }
 
-  const auth = getAuth();
-  login(){
-    this.fb.login(this.email, this.password);
+  login(check){
+    if(check){
+      const { email, password } = this.loginForm.value;
+      this.fb.login(email, password);
+    }
   }
 
 }
