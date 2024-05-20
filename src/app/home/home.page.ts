@@ -4,6 +4,7 @@ import { FirebaseService, Summary } from '../firebase.service';
 import { ModalController } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { Storage, ref, uploadBytesResumable, getDownloadURL } from '@angular/fire/storage';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,7 @@ import { Storage, ref, uploadBytesResumable, getDownloadURL } from '@angular/fir
 })
 export class HomePage implements OnInit {
   @ViewChild('upload') files: ElementRef;
-  constructor(public fb: FirebaseService, public modal: ModalController, public storage: Storage) { }
+  constructor(public fb: FirebaseService, public modal: ModalController, public storage: Storage, public router: Router) { }
 
   ngOnInit() {
   }
@@ -46,9 +47,15 @@ export class HomePage implements OnInit {
   }
 
   addChapter(){
-    this.summary.chapters.push({chapter: null, summary: ""})
+    this.summary.chapters.push({chapter: null, summary: ""});
+    this.remove = false;
   }
-
+  remove = true;
+  removeChapter(i){
+    this.summary.chapters.splice(i,1);
+    if(this.summary.chapters.length == 1)
+      this.remove = true;
+  }
   
   uploadFile(input: HTMLInputElement) {
     if (!input.files) return

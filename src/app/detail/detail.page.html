@@ -1,17 +1,24 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>      {{fb.summaries[i].title}}    </ion-title>
+    <ion-title>      {{summary[i].title}}    </ion-title>
+      <ion-back-button slot="start">back</ion-back-button>
+      <ion-button routerLink="/home">back</ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
     <ion-item>
-      {{fb.summaries[i].topic}}
+      topic : {{summary[i].topic}}
     </ion-item>
     <ion-item>
-      {{fb.summaries[i].writer}}
+      writer: {{summary[i].writer}}
     </ion-item>
     <ion-item>      
-      {{fb.summaries[i].summary}}
+      summary: {{summary[i].summary}}
     </ion-item>
+    <br> <br>
+    <h1>Comments</h1>
+    <ion-input label="comment" [(ngModel)]="comment"></ion-input>
+    <ion-button click="addComment()">Add Comment</ion-button>
+    <!--<ion-item *ngFor="let "></ion-item>-->
 </ion-content>

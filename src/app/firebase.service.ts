@@ -73,10 +73,10 @@ export class FirebaseService {
     return updateDoc(doc(this.fs, `Users/${u.id}`), {usernaem: u.username, email: u.email});
   }
   editSummary(s:Summary): Promise<DocumentReference>{
-    return updateDoc(doc(this.fss, `Summaries/${s.id}`), {type: s.type, title: s.title, topic: s.topic, date: new Date(), summary: s.summary, chapters: s.chapters});
+    return updateDoc(doc(this.fs, `Summaries/${s.id}`), {type: s.type, title: s.title, topic: s.topic, date: new Date(), summary: s.summary, chapters: s.chapters});
   }
-  addComment(s:Summary): Promise<DocumentReference>{
-    return updateDoc(doc(this.fss, `Summaries/${s.id}`), {comments: s.comments});
+  addComment(id, comment): Promise<DocumentReference>{
+    return updateDoc(doc(this.fs, `Summaries/${id}`), {comments: comment});
   }
   addRating(s:Summary): Promise<DocumentReference>{
     return updateDoc(doc(this.fss, `Summaries/${s.id}`), {ratings: s.ratings});
