@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  @ViewChild('upload') files: ElementRef;
+  //@ViewChild('upload') files: ElementRef;
   constructor(public fb: FirebaseService, public modal: ModalController, public storage: Storage, public router: Router) { }
 
   ngOnInit() {
@@ -30,7 +30,7 @@ export class HomePage implements OnInit {
   onWillDismiss(event: Event) {
     const ev = event as CustomEvent<OverlayEventDetail<string>>;
     if (ev.detail.role === 'confirm') {
-      this.uploadFile(this.files.nativeElement);
+     // this.uploadFile(this.files.nativeElement);
       this.fb.addSummary(this.summary);
       this.summary = {writer: this.fb.email};
     }

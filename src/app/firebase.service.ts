@@ -26,11 +26,9 @@ export class FirebaseService {
         if (user) {
           this.uid = user.uid;
           this.email = user.email;
-          observer.next(user);
         } 
         else {
           this.uid = null;
-          observer.next(null);
         }
       });
     });      
