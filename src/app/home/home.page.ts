@@ -5,7 +5,6 @@ import { ModalController } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { Storage, ref, uploadBytesResumable, getDownloadURL } from '@angular/fire/storage';
 import { Router } from '@angular/router';
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -13,11 +12,40 @@ import { Router } from '@angular/router';
 })
 export class HomePage implements OnInit {
   @ViewChild('upload') files: ElementRef;
+  summaries: Summary[] = []; 
+  filteredSummaries: Summary[] = [];
+  searchTerm: string = '';
+  filterOption: string = 'all';
+
   constructor(public fb: FirebaseService, public modal: ModalController, public storage: Storage, public router: Router) { }
 
   ngOnInit() {
+    this.fb.summaries$.subscribe(summaries => {
+      this.summaries = summaries; 
+      this.filterItems(); 
+    });
   }
 
+  filterItems() {
+    this.filteredSummaries = this.summaries.filter(summary => {
+      
+      if (this.filterOption !== 'all' && summary.type !== this.filterOption) {
+        return false;
+      }
+    
+      if (this.searchTerm && this.searchTerm.trim() !== '') {
+        const searchTermLC = this.searchTerm.toLowerCase();
+        if (
+          !summary.title.toLowerCase().includes(searchTermLC) &&
+          !summary.topic.toLowerCase().includes(searchTermLC)
+        ) {
+          return false;
+        }
+      }
+      return true;
+    });
+  }
+  
   summary: Summary = {writer: this.fb.email};
   cancel() {
     this.modal.dismiss(null, 'cancel');
@@ -75,4 +103,5 @@ export class HomePage implements OnInit {
     }
   }
   
-}
+    }
+  

@@ -7,6 +7,7 @@ import { getDocs, doc, deleteDoc, updateDoc, docData, setDoc, addDoc, query } fr
 import { Router } from '@angular/router';
 import { DocumentData } from 'firebase/firestore';
 import { Observable } from 'rxjs';
+
 import { getDownloadURL } from 'firebase/storage';
 
 @Injectable({
@@ -75,11 +76,11 @@ export class FirebaseService {
   editSummary(s:Summary): Promise<DocumentReference>{
     return updateDoc(doc(this.fs, `Summaries/${s.id}`), {type: s.type, title: s.title, topic: s.topic, date: new Date(), summary: s.summary, chapters: s.chapters});
   }
-  addComment(id, comment): Promise<DocumentReference>{
+  addComment(id, comment): Promise<void>{
     return updateDoc(doc(this.fs, `Summaries/${id}`), {comments: comment});
   }
-  addRating(s:Summary): Promise<DocumentReference>{
-    return updateDoc(doc(this.fss, `Summaries/${s.id}`), {ratings: s.ratings});
+  addRating(id, rating): Promise<void>{
+    return updateDoc(doc(this.fs, `Summaries/${id}`), {ratings: rating});
   }
   deleteUser(u:User): Promise<void>{
     return deleteDoc(doc(this.fs, 'Users', u.id));

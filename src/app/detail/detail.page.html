@@ -1,24 +1,47 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>      {{summary[i].title}}    </ion-title>
-      <ion-back-button slot="start">back</ion-back-button>
-      <ion-button routerLink="/home">back</ion-button>
+    <ion-title>{{ summary[i].title }}</ion-title>
+    <ion-back-button slot="start">back</ion-back-button>
+    <ion-button routerLink="/home">back</ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-    <ion-item>
-      topic : {{summary[i].topic}}
+  <ion-item>
+    <ion-label>Topic: {{ summary[i].topic }}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Writer: {{ summary[i].writer }}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Summary: {{ summary[i].summary }}</ion-label>
+  </ion-item>
+
+  <br><br>
+
+  <ion-list>
+    <ion-list-header>Comments</ion-list-header>
+    <ion-item *ngFor="let comment of summary[i].comments">
+      <ion-label>{{ comment.user }}: {{ comment.comment }}</ion-label>
     </ion-item>
-    <ion-item>
-      writer: {{summary[i].writer}}
-    </ion-item>
-    <ion-item>      
-      summary: {{summary[i].summary}}
-    </ion-item>
-    <br> <br>
-    <h1>Comments</h1>
-    <ion-input label="comment" [(ngModel)]="comment"></ion-input>
-    <ion-button click="addComment()">Add Comment</ion-button>
-    <!--<ion-item *ngFor="let "></ion-item>-->
+  </ion-list>
+
+  <ion-item>
+    <ion-label position="stacked">Rating: {{ summary[i].rating }}</ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Add Comment</ion-label>
+    <ion-input [(ngModel)]="newComment" placeholder="Enter your comment"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Rate this</ion-label>
+    <ion-range [(ngModel)]="newRating" min="1" max="5" step="1" pin="true">
+      <ion-label slot="start">1</ion-label>
+      <ion-label slot="end">5</ion-label>
+    </ion-range>
+  </ion-item>
+
+  <ion-button (click)="addCommentAndRating()">Submit Comment and Rating</ion-button>
 </ion-content>
