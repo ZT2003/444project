@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FirebaseService, Summary } from '../firebase.service';
 import { ActivatedRoute } from '@angular/router';
+import { Firestore, getDoc, doc } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-detail',
@@ -10,17 +11,23 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class DetailPage implements OnInit {
 
-  constructor(public fb: FirebaseService, public activatedRoute: ActivatedRoute) { }
-  i: number;
-  summary;
+  constructor(public fb: FirebaseService, public activatedRoute: ActivatedRoute, public fs: Firestore) { }
+  id;
+  summary: Summary;
+  email;
+  book;
   ngOnInit() {
-    this.i = Number(this.activatedRoute.snapshot.paramMap.get('index'));
-    this.fb.summaries$.subscribe((data) => {this.summary = data;});
+    this.summary = [];
+    this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.getS(this.id);
+    this.email = this.fb.email;
   }
-
-  comment;
-  addComment(){
-    this.fb.addComment(this.summary.id, this.comment);
+  async getS(id){
+    const querySnapshot = await getDoc(doc(this.fs, `Summaries/${id}`));
+    if(querySnapshot.exists()){
+      this.summary = querySnapshot.data();
+      this.book = this.summary.type === "book";
+      this.summary.date = this.summary.date.toDate().toDateString();
+    }
   }
-
 }

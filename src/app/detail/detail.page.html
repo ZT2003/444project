@@ -1,24 +1,29 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>      {{summary[i].title}}    </ion-title>
+    <ion-title>      {{summary.title}}    </ion-title>
       <ion-back-button slot="start">back</ion-back-button>
-      <ion-button routerLink="/home">back</ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
     <ion-item>
-      topic : {{summary[i].topic}}
+      topic : {{summary.topic}}
     </ion-item>
     <ion-item>
-      writer: {{summary[i].writer}}
+      writer: {{summary.writer}}
     </ion-item>
-    <ion-item>      
-      summary: {{summary[i].summary}}
+    <ion-item>
+      date: {{summary.date}}
     </ion-item>
+    <ion-item *ngIf="!book">      
+      summary: {{summary.summary}}
+    </ion-item>
+    <div *ngIf="book">
+      <ion-item *ngFor="let chapter of summary.chapters">
+        chapter {{chapter.chapter}}, summary: {{chapter.summary}}
+      </ion-item>
+    </div>
+    
     <br> <br>
-    <h1>Comments</h1>
-    <ion-input label="comment" [(ngModel)]="comment"></ion-input>
-    <ion-button click="addComment()">Add Comment</ion-button>
-    <!--<ion-item *ngFor="let "></ion-item>-->
+    
 </ion-content>

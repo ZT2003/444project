@@ -12,13 +12,17 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  //@ViewChild('upload') files: ElementRef;
+  summary: Summary;
+  email;
+
   constructor(public fb: FirebaseService, public modal: ModalController, public storage: Storage, public router: Router) { }
 
   ngOnInit() {
+    this.email = this.fb.email;
+    this.summary = {writer: this.email, date: new Date()};
   }
 
-  summary: Summary = {writer: this.fb.email};
+  
   cancel() {
     this.modal.dismiss(null, 'cancel');
   }
@@ -30,9 +34,8 @@ export class HomePage implements OnInit {
   onWillDismiss(event: Event) {
     const ev = event as CustomEvent<OverlayEventDetail<string>>;
     if (ev.detail.role === 'confirm') {
-     // this.uploadFile(this.files.nativeElement);
       this.fb.addSummary(this.summary);
-      this.summary = {writer: this.fb.email};
+      this.summary = {writer: this.email, date: new Date()};
     }
   }
 
@@ -55,24 +58,6 @@ export class HomePage implements OnInit {
     this.summary.chapters.splice(i,1);
     if(this.summary.chapters.length == 1)
       this.remove = true;
-  }
-  
-  uploadFile(input: HTMLInputElement) {
-    if (!input.files) return
-    const files: FileList = input.files;
-    for (let i = 0; i < files.length; i++) {
-        const file = files.item(i);
-        if (file) {
-            const path:string = this.fb.email+"/"+this.summary.title+"/"+file.name;
-            const url: string = "https://firebasestorage.googleapis.com/v0/b/project-f1277.appspot.com/o/"+path+"?alt=media";
-            const storageRef = ref(this.storage, path);
-            uploadBytesResumable(storageRef, file);   
-            if(this.summary.images)   
-              this.summary.images.push(url);  
-            else
-            this.summary.images = [url];
-        }
-    }
   }
   
 }

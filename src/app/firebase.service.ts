@@ -3,11 +3,10 @@ import { Injectable } from '@angular/core';
 import { Auth, getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, sendSignInLinkToEmail, onAuthStateChanged } from '@angular/fire/auth';
 import { Firestore } from '@angular/fire/firestore';
 import { collection, collectionData, CollectionReference, DocumentReference } from '@angular/fire/firestore';
-import { getDocs, doc, deleteDoc, updateDoc, docData, setDoc, addDoc, query } from '@angular/fire/firestore';
+import { getDocs, doc, deleteDoc, updateDoc, docData, setDoc, addDoc, query, getDoc } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { DocumentData } from 'firebase/firestore';
+import { DocumentData, where } from 'firebase/firestore';
 import { Observable } from 'rxjs';
-import { getDownloadURL } from 'firebase/storage';
 
 @Injectable({
   providedIn: 'root'
@@ -24,21 +23,21 @@ export class FirebaseService {
     this.user$ = new Observable(observer => {
       onAuthStateChanged(this.auth, user => {
         if (user) {
-          this.uid = user.uid;
           this.email = user.email;
+          console.log("if: " + this.email);
+          observer.next(user);
         } 
         else {
-          this.uid = null;
+          this.email = "default value";
+          console.log("else: " + this.email);
+          observer.next(null);
         }
       });
     });      
   }
 
-  uid;
   email = "default value";
-  un;
-  user$: Observable<any>;
-
+  
   user: User;
   public users: any[] = [];
   public users$: Observable<User[]>;
@@ -48,7 +47,7 @@ export class FirebaseService {
   public summaries: any[] = [];
   public summaries$: Observable<Summary[]>;
   summaryCollection: CollectionReference<DocumentData>;
-
+  
   async getUsers(){
     this.users$ = collectionData(query(this.userCollection), {idField: 'id'}) as Observable<User[]>;
   }
@@ -61,6 +60,7 @@ export class FirebaseService {
       this.summaries.push(doc.data());
     });
   }
+  
   addUser(u): Promise<DocumentReference>{
     return addDoc(this.userCollection, u);
   }
@@ -77,7 +77,7 @@ export class FirebaseService {
     return updateDoc(doc(this.fs, `Summaries/${id}`), {comments: comment});
   }
   addRating(s:Summary): Promise<DocumentReference>{
-    return updateDoc(doc(this.fss, `Summaries/${s.id}`), {ratings: s.ratings});
+    return updateDoc(doc(this.fs, `Summaries/${s.id}`), {ratings: s.ratings});
   }
   deleteUser(u:User): Promise<void>{
     return deleteDoc(doc(this.fs, 'Users', u.id));
@@ -103,6 +103,7 @@ export class FirebaseService {
   login(em, ps){
     signInWithEmailAndPassword(this.auth, em, ps)
     .then(() => {
+      this.email = em;
       this.router.navigateByUrl('/home');
       alert("success login");
     })

@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-card *ngFor="let summary of fb.summaries$ | async; let i = index;" routerLink="/detail/{{i}}">
+  <ion-card *ngFor="let summary of fb.summaries$ | async; let i = index;" routerLink="/detail/{{summary.id}}">
     <ion-card-header>
       <ion-card-title>{{summary.title}}</ion-card-title>
       <ion-card-subtitle>{{summary.type}} summary by {{summary.writer}}</ion-card-subtitle>
@@ -45,11 +45,10 @@
         </ion-item>
         <ion-item *ngIf="!showBook">
           <ion-textarea label="Summary" labelPlacement="stacked" [(ngModel)]="summary.summary"></ion-textarea>
-          <!-- <input type="file" multiple #upload> -->
         </ion-item>
         <div *ngIf="showBook">
           <ion-item *ngFor="let c of summary.chapters; let i = index;">
-            <ion-input label="Chapter number" labelPlacement="stacked" [(ngModel)]="summary.chapters[i].chapter"></ion-input> 
+            <ion-input label="Chapter number" labelPlacement="stacked" [(ngModel)]="summary.chapters[i].chapter" type="number"></ion-input> 
             <ion-textarea label="Chapter Summary" labelPlacement="stacked" [(ngModel)]="summary.chapters[i].summary"></ion-textarea>
             <ion-button (click)="removeChapter(i)" [disabled]="remove">Remove Chapter</ion-button>
           </ion-item>
