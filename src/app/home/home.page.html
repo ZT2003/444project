@@ -1,11 +1,31 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>home</ion-title>
+    <ion-title>Home</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-card *ngFor="let summary of fb.summaries$ | async; let i = index;" routerLink="/detail/{{summary.id}}">
+  <!-- Search Bar -->
+  <ion-searchbar [(ngModel)]="searchTerm" (ionChange)="filterItems()"></ion-searchbar>
+
+
+  <ion-segment [(ngModel)]="filterOption" (ionChange)="filterItems()">
+    <ion-segment-button value="all">
+      <ion-label>All</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="idea">
+      <ion-label>Idea</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="article">
+      <ion-label>Article</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="book">
+      <ion-label>Book</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-card *ngFor="let summary of filteredSummaries">
     <ion-card-header>
       <ion-card-title>{{summary.title}}</ion-card-title>
       <ion-card-subtitle>{{summary.type}} summary by {{summary.writer}}</ion-card-subtitle>

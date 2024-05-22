@@ -30,4 +30,24 @@ export class DetailPage implements OnInit {
       this.summary.date = this.summary.date.toDate().toDateString();
     }
   }
+
+  newComment: string = '';
+  newRating: number = 1;
+    addCommentAndRating() {
+      this.fb.addComment(this.summary.id, {
+        comment: this.newComment,
+        user: this.fb.email
+      }).then(() => {
+        this.newComment = '';
+      });
+    
+      this.fb.addRating(this.summary.id, {
+        rating: this.newRating,
+        user: this.fb.email
+      }).then(() => {
+        this.newRating = 1;
+      });
+    }
 }
+    
+  
