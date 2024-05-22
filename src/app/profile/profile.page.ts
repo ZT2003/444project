@@ -23,7 +23,6 @@ export class ProfilePage implements OnInit, AfterViewInit {
       this.userSummaries = [];
       summaries.forEach((summary) => {
         if(summary.writer === this.fb.email){
-          console.log(summary);
           this.userSummaries.push(summary);
         }
       });

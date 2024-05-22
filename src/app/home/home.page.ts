@@ -1,7 +1,7 @@
 //@ts-nocheck
 import { Component, ElementRef, OnInit, ViewChild, viewChild } from '@angular/core';
 import { FirebaseService, Summary } from '../firebase.service';
-import { ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { Router } from '@angular/router';
 @Component({
@@ -11,27 +11,21 @@ import { Router } from '@angular/router';
 })
 export class HomePage implements OnInit {
   summary: Summary;
-  email;
   summaries: Summary[] = []; 
   filteredSummaries: Summary[] = [];
   searchTerm: string = '';
   filterOption: string = 'all';
   
-  constructor(public fb: FirebaseService, public modal: ModalController, public router: Router) { }
+  constructor(public fb: FirebaseService, public modal: ModalController, public router: Router, public  alertCtrl: AlertController) { }
 
   ngOnInit() {
-    this.email = this.fb.email;
-    this.summary = {writer: this.email, date: new Date()};
+    this.summary = {writer: this.fb.email, date: new Date()};
 
     this.fb.summaries$.subscribe((summaries) => {
       this.summaries = summaries; 
       this.filterItems(); 
     });
   }
-
-  
-    
-  
 
   filterItems() {
     this.filteredSummaries = this.summaries.filter(summary => {
@@ -57,15 +51,41 @@ export class HomePage implements OnInit {
     this.modal.dismiss(null, 'cancel');
   }
 
-  confirm() {
-    this.modal.dismiss(this.summary, 'confirm');
+  
+  async confirm() {
+    const alert = await this.alertCtrl.create({
+        header: "Please make sure to fill all input fields",
+        buttons: [
+          {text:"Ok"}
+        ]
+      });
+    if(this.summary.type != undefined && this.summary.title != undefined && this.summary.topic != undefined){
+      let flag = true;
+      if(this.summary.type === 'book'){
+        for(let i = 0; i < this.summary.chapters.length; ++i){
+          if(this.summary.chapters[i].chapter == null || this.summary.chapters[i].summary == "")
+            flag = false;
+        }
+        if(flag)
+          this.modal.dismiss(this.summary, 'confirm');
+        else
+          await alert.present();
+      }
+      else if(this.summary.summary != undefined)
+        this.modal.dismiss(this.summary, 'confirm');      
+      else
+        await alert.present();
+    }
+    else
+      await alert.present();
+      
   }
 
   onWillDismiss(event: Event) {
     const ev = event as CustomEvent<OverlayEventDetail<string>>;
     if (ev.detail.role === 'confirm') {
       this.fb.addSummary(this.summary);
-      this.summary = {writer: this.email, date: new Date()};
+      this.summary = {writer: this.fb.email, date: new Date()};
     }
   }
 
