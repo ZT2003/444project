@@ -3,7 +3,6 @@ import { Component, ElementRef, OnInit, ViewChild, viewChild } from '@angular/co
 import { FirebaseService, Summary } from '../firebase.service';
 import { ModalController } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core/components';
-import { Storage, ref, uploadBytesResumable, getDownloadURL } from '@angular/fire/storage';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
@@ -18,7 +17,7 @@ export class HomePage implements OnInit {
   searchTerm: string = '';
   filterOption: string = 'all';
   
-  constructor(public fb: FirebaseService, public modal: ModalController, public storage: Storage, public router: Router) { }
+  constructor(public fb: FirebaseService, public modal: ModalController, public router: Router) { }
 
   ngOnInit() {
     this.email = this.fb.email;

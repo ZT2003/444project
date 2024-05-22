@@ -82,8 +82,8 @@ export class FirebaseService {
   deleteUser(u:User): Promise<void>{
     return deleteDoc(doc(this.fs, 'Users', u.id));
   }
-  deleteSummary(b:Summary): Promise<void>{
-    return deleteDoc(doc(this.fs, 'Summaries', b.id));
+  deleteSummary(s:Summary): Promise<void>{
+    return deleteDoc(doc(this.fs, 'Summaries', s.id));
   }
 
   const auth = getAuth();
@@ -103,7 +103,6 @@ export class FirebaseService {
   login(em, ps){
     signInWithEmailAndPassword(this.auth, em, ps)
     .then(() => {
-      this.email = em;
       this.router.navigateByUrl('/home');
       alert("success login");
     })
