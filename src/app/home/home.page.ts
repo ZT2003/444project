@@ -54,7 +54,6 @@ export class HomePage implements OnInit {
     });
   }
   
-  summary: Summary = {writer: this.fb.email};
   cancel() {
     this.modal.dismiss(null, 'cancel');
   }
