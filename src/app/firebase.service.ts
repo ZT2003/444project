@@ -5,6 +5,7 @@ import { Firestore } from '@angular/fire/firestore';
 import { collection, collectionData, CollectionReference, DocumentReference } from '@angular/fire/firestore';
 import { getDocs, doc, deleteDoc, updateDoc, docData, setDoc, addDoc, query, getDoc } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { DocumentData, where } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 
@@ -13,7 +14,7 @@ import { Observable } from 'rxjs';
 })
 export class FirebaseService {
 
-  constructor(public auth:Auth, public fs: Firestore, public router: Router) {
+  constructor(public auth:Auth, public fs: Firestore, public router: Router, public alertCtrl: AlertController) {
     this.userCollection = collection(this.fs, 'Users');
     this.summaryCollection = collection(this.fs, 'Summaries');
 
@@ -88,36 +89,45 @@ export class FirebaseService {
 
   const auth = getAuth();
 
-  signup(un, em, ps){
+  signup(em, ps){
     createUserWithEmailAndPassword(this.auth, em, ps)
     .then(() => {
-      this.user = {username: un, email: em, read: [], favorite: []};
+      this.user = {email: em, read: [], favorite: []};
       this.addUser(this.user);
       this.router.navigateByUrl('/login');
-      alert("signup successful");
     })
-    .catch(() => {
-      alert("signup failled, could be the email is already used");
+    .catch(async () => {
+      const alert = await this.alertCtrl.create({
+        header: "Failled signup, please try again later with a different email",
+        buttons: [{text: "ok"}]
+      });
+      await alert.present();
     });
   }
   login(em, ps){
     signInWithEmailAndPassword(this.auth, em, ps)
     .then(() => {
       this.router.navigateByUrl('/home');
-      alert("success login");
     })
-    .catch(() => {
-      alert("failled login");
+    .catch(async () => {
+      const alert = await this.alertCtrl.create({
+        header: "Failled login, wrong email or password",
+        buttons: [{text: "ok"}]
+      });
+      await alert.present();
     });
   }
   signout(){
     signOut(this.auth)
     .then(() => {
       this.router.navigateByUrl('/login');
-      alert("success signout");
     })
-    .catch(() => {
-      alert("failled signout");
+    .catch(async () => {
+      const alert = await this.alertCtrl.create({
+        header: "Failled signout, please try again later",
+        buttons: [{text: "ok"}]
+      });
+      await alert.present();    
     });
   }
   
@@ -139,7 +149,6 @@ export interface Summary {
 
 export interface User {
   id?: string,
-  username: string,
   email: string,
   read?: string[],
   favorite?: string[]

@@ -5,17 +5,8 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
   <form [formGroup]="signForm" (ngSubmit)="signup(signForm.value)">
-    <ion-input type="text" label="Username" formControlName="username" required></ion-input>
-      <div *ngIf="signForm.controls['username'].hasError('required') && signForm.controls['username'].touched">
-        <p>Sorry, field username is required!</p>
-      </div>
-      <div *ngIf="signForm.controls['username'].hasError('pattern') && signForm.controls['username'].touched">
-        <p>Sorry, only small, capital letters, digits, dots (.), and underscores (_) are allowed!</p>
-      </div> 
-      <div *ngIf="signForm.controls['username'].hasError('maxlength') && signForm.controls['username'].touched">
-        <p>Sorry, maximum username length is 30!</p>
-      </div>
       
     <ion-input type="email" label="Email" formControlName="email" required></ion-input>
     <div *ngIf="signForm.controls['email'].hasError('required') && signForm.controls['email'].touched">

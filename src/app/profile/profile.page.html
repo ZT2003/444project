@@ -1,12 +1,13 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>profile</ion-title>
+    <div class="drop-area" #dropZone slot="end" style="margin: 5%;">
+      <ion-icon name="trash" size="large"></ion-icon>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content [fullscreen]="true">
-  <ion-header [translucent]="true">
-    <ion-toolbar>
-      <ion-title>profile</ion-title>
-      <div class="drop-area" #dropZone slot="end" style="margin: 5%;">
-        <ion-icon name="trash" size="large"></ion-icon>
-      </div>
-    </ion-toolbar>
-  </ion-header>
   
   <div class="cards">
     <ion-card *ngFor="let summary of userSummaries" routerLink="/detail/{{summary.id}}" #card>
