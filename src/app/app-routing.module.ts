@@ -26,6 +26,18 @@ const routes: Routes = [
   {
     path: 'profile',
     loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
+  },
+  {
+    path: 'summary-list-component',
+    loadChildren: () => import('./summary-list-component/summary-list-component.module').then( m => m.SummaryListComponentPageModule)
+  },
+  {
+    path: 'favorites',
+    loadChildren: () => import('./favorites/favorites.module').then( m => m.FavoritesPageModule)
+  },
+  {
+    path: 'drafts',
+    loadChildren: () => import('./drafts/drafts.module').then( m => m.DraftsPageModule)
   }
 ];
 @NgModule({
