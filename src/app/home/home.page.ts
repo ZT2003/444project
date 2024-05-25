@@ -93,14 +93,15 @@ export class HomePage implements OnInit {
   type(){
     if(this.summary.type == 'book'){
       this.showBook = true;
-      this.summary.chapters = [{chapter: null, summary: ""}, ];
+      this.summary.chapters = [{chapter: null, summary: "", image: ""}, ];
     }
-    else
+    else {
       this.showBook = false;
+    }
   }
 
   addChapter(){
-    this.summary.chapters.push({chapter: null, summary: ""});
+    this.summary.chapters.push({chapter: null, summary: "", image: ""});
     this.remove = false;
   }
   remove = true;
@@ -110,4 +111,22 @@ export class HomePage implements OnInit {
       this.remove = true;
   }
   
+  pictures = [{url: "/assets/pictures/pic1.jpg", text: "engineers at work"},
+               {url: "/assets/pictures/pic2.jpg", text: "a map"}, 
+               {url: "/assets/pictures/pic3.jpg", text: "an engineer working"},
+               {url: "/assets/pictures/pic4.jpg", text: "a girl studying"},
+               {url: "/assets/pictures/pic5.jpg", text: "studying in a libarary"},
+               {url: "/assets/pictures/pic7.jpg", text: "reading in a libarary"},
+               {url: "/assets/pictures/pic9.jpg", text: "desktop computer"},
+               {url: "/assets/pictures/pic10.jpg", text: "a cat infront of a computer"}, 
+               {url: "/assets/pictures/pic11.jpg", text: "a messy table"},
+               {url: "/assets/pictures/pic13.jpg", text: "a coffee  mug"},
+               {url: "/assets/pictures/pic14.jpg", text: "boy studying"},
+               {url: "/assets/pictures/pic15.jpg", text: "a girl writing"},
+               {url: "/assets/pictures/pic16.jpg", text: "a girl in a class room"},
+               {url: "/assets/pictures/pic17.jpg", text: "an architecutre studio"},
+               {url: "/assets/pictures/pic18.jpg", text: "math study"},
+               {url: "/assets/pictures/pic20.jpg", text: "late night work"},
+               {url:"/assets/pictures/pic21.jpg", text: "doing homework"},
+               {url: "/assets/pictures/pic23.jpg", text: "a plane designer"}];
 }

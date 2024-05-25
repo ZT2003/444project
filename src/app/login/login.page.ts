@@ -31,4 +31,17 @@ export class LoginPage implements OnInit {
     }
   }
 
+  passType = "password";
+  passIcon = "eye-off"
+  showPass(){
+    if(this.passType === "password"){
+      this.passType = "text";
+      this.passIcon = "eye";
+    }
+    else{
+      this.passType = "password";
+      this.passIcon = "eye-off";
+    }
+  }
+
 }

@@ -17,10 +17,12 @@
     </ion-item>
     <ion-item *ngIf="!book">      
       summary: {{summary.summary}}
+      <img src="{{summary.image}}">
     </ion-item>
     <div *ngIf="book">
       <ion-item *ngFor="let chapter of summary.chapters">
         chapter {{chapter.chapter}}, summary: {{chapter.summary}}
+        <img src="{{chapter.image}}">
       </ion-item>
     </div>
   <br><br>

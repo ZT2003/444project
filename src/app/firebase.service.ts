@@ -140,9 +140,9 @@ export interface Summary {
   topic: string[],
   date: Date,
   summary: string,
-  images: string[],
+  image: string,
   writer: string,
-  chapters: {chapter: number, summary: string, images: string[]}[],
+  chapters: {chapter: number, summary: string, image: string}[],
   comments: {comment: string, user: string}[],
   ratings: {rating: number, user: string}[]
 }

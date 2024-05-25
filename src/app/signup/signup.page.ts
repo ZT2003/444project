@@ -37,4 +37,30 @@ export class SignupPage implements OnInit {
     }
   }
 
+  password1 = "password";
+  passIcon1 = "eye-off"
+  showPass1(){
+    if(this.password1 === "password"){
+      this.password1 = "text";
+      this.passIcon1 = "eye";
+    }
+    else{
+      this.password1 = "password";
+      this.passIcon1 = "eye-off";
+    }
+  }
+
+  password2 = "password";
+  passIcon2 = "eye-off"
+  showPass2(){
+    if(this.password2 === "password"){
+      this.password2 = "text";
+      this.passIcon2 = "eye";
+    }
+    else{
+      this.password2 = "password";
+      this.passIcon2 = "eye-off";
+    }
+  }
+
 }

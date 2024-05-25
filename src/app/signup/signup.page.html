@@ -16,7 +16,9 @@
       <p>Sorry, invalid email format</p>
     </div> 
 
-    <ion-input type="password" label="Password" formControlName="password" required erroText="error"></ion-input>
+    <ion-input [type]="password1" label="Password" formControlName="password" required>
+      <ion-icon slot="end" [name]="passIcon1" (click)="showPass1()"></ion-icon>
+    </ion-input>
     <div *ngIf="signForm.controls['password'].hasError('required') && signForm.controls['password'].touched">
       <p>Sorry, field password is required!</p>
     </div>
@@ -30,7 +32,9 @@
       <p>Sorry, minimum password length is 6!</p>
     </div>
 
-    <ion-input type="password" label="Confirm Password" formControlName="passwordConfirm" required></ion-input>
+    <ion-input [type]="password2" label="Confirm Password" formControlName="passwordConfirm" required>
+      <ion-icon slot="end" [name]="passIcon2" (click)="showPass2()"></ion-icon>
+    </ion-input>
     <div *ngIf="signForm.controls['passwordConfirm'].hasError('required') && signForm.controls['passwordConfirm'].touched">
       <p>Sorry, field password confirmation is required!</p>
     </div>

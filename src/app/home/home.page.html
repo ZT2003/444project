@@ -26,6 +26,8 @@
   </ion-segment>
 
   <ion-card *ngFor="let summary of filteredSummaries" routerLink="/detail/{{summary.id}}">
+    <img src="{{summary.image}}" *ngIf="summary.type !== 'book'">
+    <img src="{{summary.chapters[0].image}}" *ngIf="summary.type === 'book'">
     <ion-card-header>
       <ion-card-title>{{summary.title}}</ion-card-title>
       <ion-card-subtitle>{{summary.type}} summary by {{summary.writer}}</ion-card-subtitle>
@@ -63,15 +65,51 @@
         <ion-item>
           <ion-input label="Topics" labelPlacement="stacked" type="text" [(ngModel)]="summary.topic"></ion-input>
         </ion-item>
-        <ion-item *ngIf="!showBook">
+        <div *ngIf="!showBook">
           <ion-textarea label="Summary" labelPlacement="stacked" [(ngModel)]="summary.summary"></ion-textarea>
-        </ion-item>
+          <ion-accordion-group>
+            <ion-accordion>
+              <ion-item slot="header">
+                <ion-label>Images (optional)</ion-label>
+              </ion-item>
+              <ion-list slot="content">
+                <ion-radio-group [(ngModel)]="summary.image">
+                  <ion-item *ngFor="let pic of pictures;">
+                    <ion-radio slot="start" value="{{pic.url}}"></ion-radio>
+                    <ion-thumbnail slot="start">
+                      <ion-img src="{{pic.url}}"></ion-img>
+                    </ion-thumbnail>
+                    <ion-label>{{pic.text}}</ion-label>
+                  </ion-item>
+                </ion-radio-group>
+              </ion-list>
+            </ion-accordion>
+          </ion-accordion-group>
+        </div>
         <div *ngIf="showBook">
-          <ion-item *ngFor="let c of summary.chapters; let i = index;">
+          <div *ngFor="let c of summary.chapters; let i = index;">
             <ion-input label="Chapter number" labelPlacement="stacked" [(ngModel)]="summary.chapters[i].chapter" type="number"></ion-input> 
             <ion-textarea label="Chapter Summary" labelPlacement="stacked" [(ngModel)]="summary.chapters[i].summary"></ion-textarea>
             <ion-button (click)="removeChapter(i)" [disabled]="remove">Remove Chapter</ion-button>
-          </ion-item>
+            <ion-accordion-group>
+              <ion-accordion>
+                <ion-item slot="header">
+                  <ion-label>Images (optional)</ion-label>
+                </ion-item>
+                <ion-list slot="content">
+                  <ion-radio-group [(ngModel)]="summary.chapters[i].image">
+                    <ion-item *ngFor="let pic of pictures;">
+                      <ion-radio slot="start" value="{{pic.url}}"></ion-radio>
+                      <ion-thumbnail slot="start">
+                        <ion-img src="{{pic.url}}"></ion-img>
+                      </ion-thumbnail>
+                      <ion-label>{{pic.text}}</ion-label>
+                    </ion-item>
+                  </ion-radio-group>
+                </ion-list>
+              </ion-accordion>
+            </ion-accordion-group>
+          </div>
           <ion-button (click)="addChapter()">Add Chapter</ion-button>
         </div>
 
