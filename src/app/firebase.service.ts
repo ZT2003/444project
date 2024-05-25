@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { DocumentData, where } from 'firebase/firestore';
 import { Observable } from 'rxjs';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -269,7 +268,7 @@ export class FirebaseService {
       throw error;
     }
   }
- 
+
   deleteUser(u: User): Promise<void> {
     return deleteDoc(doc(this.fs, 'Users', u.id));
   }
