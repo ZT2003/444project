@@ -1,0 +1,25 @@
+<ion-list>
+  <ion-list-header>Summaries by Others</ion-list-header>
+  <ion-item-sliding *ngFor="let summary of otherSummaries; let i = index">
+    <ion-item (click)="toggleSelection(summary)">
+      <ion-label>
+        <h3>{{ summary.title }}</h3>
+        <p>{{ summary.topic }}</p>
+        <p>{{ summary.writer }}</p>
+      </ion-label>
+      <ion-icon *ngIf="isSelected(summary)" name="checkmark-circle" slot="end"></ion-icon>
+    </ion-item>
+    <ion-item-options side="end">
+      <ion-item-option (click)="moveUp(i)" [ngClass]="{'disabled': i === 0}">
+        <ion-icon name="arrow-up"></ion-icon>
+      </ion-item-option>
+      <ion-item-option (click)="moveDown(i)" [ngClass]="{'disabled':i === otherSummaries.length - 1}">
+        <ion-icon name="arrow-down"></ion-icon>
+      </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+</ion-list>
+
+<ion-button expand="block" (click)="createDraft()" [disabled]="selectedSummaries.length === 0">
+  Create Draft
+</ion-button>

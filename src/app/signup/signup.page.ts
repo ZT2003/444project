@@ -20,7 +20,6 @@ export class SignupPage implements OnInit {
 
   createForm(){
     this.signForm = this.form.group({
-      username: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9._]+$'), Validators.maxLength(30)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6), Validators.pattern('^(?=.*[a-zA-Z])(?=.*[0-9])[0-9a-zA-Z_$#@%*-.]{2,}$'), Validators.maxLength(30)]],
       passwordConfirm: ['', [Validators.required]] 
@@ -33,8 +32,8 @@ export class SignupPage implements OnInit {
   
   signup(check){
     if(check){
-      const { username, email, password } = this.signForm.value;
-      this.fb.signup(username, email, password);    
+      const { email, password } = this.signForm.value;
+      this.fb.signup(email, password);    
     }
   }
 

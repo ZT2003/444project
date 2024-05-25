@@ -1,0 +1,68 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button slot="start">back</ion-back-button>
+    </ion-buttons>
+    <ion-title>Drafts</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor="let draft of combinedDrafts">
+    <ion-card-header>
+      <ion-card-title>{{ draft.title }}</ion-card-title>
+      <ion-card-subtitle>By: {{ draft.writer }}</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p>Date: {{ draft.date.toDate() | date }}</p>
+      <p>Summary: {{ draft.summary }}</p>
+    </ion-card-content>
+    <ion-button (click)="openEditDraftModal(draft)">edit draft</ion-button>
+  </ion-card>
+</ion-content>
+
+
+<ion-modal [isOpen]="isEditDraftModalOpen">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Edit Draft</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="isEditDraftModalOpen = false">Close</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-item>
+        <ion-label>Title</ion-label>
+        <ion-input [(ngModel)]="selectedDraft.title" name="title" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Summary</ion-label>
+        <ion-textarea [(ngModel)]="selectedDraft.summary" name="summary"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Type:</ion-label>
+        <ion-select [(ngModel)]="selectedDraftType">
+          <ion-select-option value="idea">Idea</ion-select-option>
+          <ion-select-option value="article">Article</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-button expand="block" (click)="saveChanges()">Save Changes</ion-button>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+
+<ion-footer [translucent]="true">
+  <ion-toolbar>
+    <ion-button routerLink="/profile">
+      <ion-icon name="person"></ion-icon>
+    </ion-button>
+    <ion-button routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
