@@ -6,24 +6,29 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-    <ion-item>
+    <p>
+       writer: {{summary.writer}}
+    </p>
+    <p>
       topic : {{summary.topic}}
-    </ion-item>
-    <ion-item>
-      writer: {{summary.writer}}
-    </ion-item>
-    <ion-item>
+    </p>
+    <p>
       date: {{summary.date}}
-    </ion-item>
-    <ion-item *ngIf="!book">      
-      summary: {{summary.summary}}
+    </p>
+    
+    <div *ngIf="!book">
       <img src="{{summary.image}}">
-    </ion-item>
+      <p>
+        summary: {{summary.summary}}
+      </p>    
+    </div>
+
     <div *ngIf="book">
-      <ion-item *ngFor="let chapter of summary.chapters">
-        chapter {{chapter.chapter}}, summary: {{chapter.summary}}
+      <div *ngFor="let chapter of summary.chapters">
+        <h3>chapter {{chapter.chapter}}</h3>
+        <p>summary: {{chapter.summary}}</p>
         <img src="{{chapter.image}}">
-      </ion-item>
+      </div>
     </div>
   <br><br>
 <!--
@@ -47,3 +52,13 @@
   <ion-button (click)="addCommentAndRating()">Submit Comment and Rating</ion-button>
     
 </ion-content>
+<ion-footer [translucent]="true">
+  <ion-toolbar>
+    <ion-button routerLink="/home" fill="clear">
+      <ion-icon name="home"></ion-icon>
+    </ion-button>
+    <ion-button routerLink="/profile" fill="clear">
+      <ion-icon name="person"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

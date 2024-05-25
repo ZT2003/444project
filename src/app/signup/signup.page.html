@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
+<div class="container">
   <form [formGroup]="signForm" (ngSubmit)="signup(signForm.value)">
       
     <ion-input type="email" label="Email" formControlName="email" required></ion-input>
@@ -42,8 +42,8 @@
       <p>Sorry, password confirmation must equal the password</p>
     </div> 
 
-    <ion-button type="submit" [disabled]="signForm.invalid">Sign Up</ion-button> <br>
+    <ion-button type="submit" [disabled]="signForm.invalid" expand="full">Sign Up</ion-button> <br>
   </form>
-  already have an account? <ion-button routerLink="/login">Login</ion-button>
-
+  already have an account? <a routerLink="/login">Login</a>
+</div>
 </ion-content>
